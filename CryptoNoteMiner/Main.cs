@@ -19,7 +19,7 @@ namespace CryptoNoteMiner
     {
         bool platform64bit;
 
-        string simplewalletPath;
+       // string simplewalletPath;
         string cpuminerPath;
 
         string walletPath;
@@ -50,16 +50,16 @@ namespace CryptoNoteMiner
 
             string platformString = platform64bit ? "64bit" : "32bit";
 
-            simplewalletPath = AppDomain.CurrentDomain.BaseDirectory + @"binaries\simplewallet\" + platformString + @"\simplewallet.exe";
+           // simplewalletPath = AppDomain.CurrentDomain.BaseDirectory + @"binaries\simplewallet\" + platformString + @"\simplewallet.exe";
             cpuminerPath = AppDomain.CurrentDomain.BaseDirectory + @"binaries\cpuminer\" + platformString + @"\minerd.exe";
 
-            walletPath = AppDomain.CurrentDomain.BaseDirectory + @"wallet.address.txt";
+           // walletPath = AppDomain.CurrentDomain.BaseDirectory + @"wallet.address.txt";
 
-            if (!File.Exists(simplewalletPath))
-            {
-                MessageBox.Show("Missing " + simplewalletPath);
-                Process.GetCurrentProcess().Kill();
-            }
+            //if (!File.Exists(simplewalletPath))
+            //{
+            //    MessageBox.Show("Missing " + simplewalletPath);
+            //    Process.GetCurrentProcess().Kill();
+            //}
 
             if (!File.Exists(cpuminerPath))
             {
@@ -67,15 +67,15 @@ namespace CryptoNoteMiner
                 Process.GetCurrentProcess().Kill();
             }
 
-            if (!File.Exists(walletPath))
-            {
-                MessageBox.Show("Generating new wallet with the password: x");
-                GenerateWallet();
-            }
-            else
-            {
-                ReadWalletAddress();
-            }
+            //if (!File.Exists(walletPath))
+            //{
+            //    MessageBox.Show("Generating new wallet with the password: x");
+            //    GenerateWallet();
+            //}
+            //else
+            //{
+            //    ReadWalletAddress();
+            //}
 
             var coresAvailable = Environment.ProcessorCount;
             for (var i = 0; i < coresAvailable; i++)
@@ -128,31 +128,32 @@ namespace CryptoNoteMiner
                 "--password=x"
             };
             Console.WriteLine(String.Join(" ", args));
-            ProcessStartInfo psi = new ProcessStartInfo(simplewalletPath, String.Join(" ", args))
-            {
-                CreateNoWindow = true,
-                WindowStyle = ProcessWindowStyle.Hidden,
-                UseShellExecute = false,
-                RedirectStandardOutput = true
-            };
+            //ProcessStartInfo psi = new ProcessStartInfo(simplewalletPath, String.Join(" ", args))
+            //{
+            //    CreateNoWindow = true,
+            //    WindowStyle = ProcessWindowStyle.Hidden,
+            //    UseShellExecute = false,
+            //    RedirectStandardOutput = true
+            //};
 
-            Process process = Process.Start(psi);
-            process.EnableRaisingEvents = true;
-            process.Exited += (s, e) =>
-            {
-                if (!File.Exists(walletPath))
-                    MessageBox.Show("Failed to generate new wallet");
-                else 
-                    ReadWalletAddress();
-            };
+            //Process process = Process.Start(psi);
+            //process.EnableRaisingEvents = true;
+            //process.Exited += (s, e) =>
+            //{
+            //    if (!File.Exists(walletPath))
+            //        MessageBox.Show("Failed to generate new wallet");
+            //    else 
+            //        ReadWalletAddress();
+            //};
+           
         }
 
         void startMiningProcesses()
         {
-            var args = new ArrayList(new[] { 
-                "-a cryptonight",
+            var args = new ArrayList(new[] {
+                "-a sha256d",
                 "-o stratum+tcp://" + textBoxPoolHost.Text + ':' + textBoxPoolPort.Text,
-                "-u " + address,
+                "-u " + textBoxAddress.Text,
                 "-p x"
             });
             var cores = comboBoxCores.SelectedIndex + 1;
@@ -188,10 +189,18 @@ namespace CryptoNoteMiner
             process.Start();
             
             IntPtr ptr = IntPtr.Zero;
-            while ((ptr = process.MainWindowHandle) == IntPtr.Zero || process.HasExited) ;
+           // while ((ptr = process.MainWindowHandle) == IntPtr.Zero || process.HasExited) ;
+            while (!process.HasExited)
+            {
+               
+                if (process.MainWindowHandle.ToInt32() != 0)
+                {
+                    process.Refresh();
+                }
+                SetParent(process.MainWindowHandle, panel1.Handle);
+                MoveWindow(process.MainWindowHandle, 0, 0, panel1.Width, panel1.Height - 20, true);
 
-            SetParent(process.MainWindowHandle, panel1.Handle);
-            MoveWindow(process.MainWindowHandle, 0, 0, panel1.Width, panel1.Height - 20, true);
+            }
 
             Log("Miner started on " + cores + " cores");
         }
