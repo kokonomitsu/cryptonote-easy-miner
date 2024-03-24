@@ -13,7 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CryptoNoteMiner
+namespace BigcoinMiner
 {
     public partial class Main : Form
     {
@@ -172,9 +172,12 @@ namespace CryptoNoteMiner
 
             Process process = new Process();
             minerProcesses.Add(process);
+
+
             process.StartInfo = startInfo;
             process.EnableRaisingEvents = true;
-            process.Exited += (s, e) => {
+            process.Exited += (s, e) => 
+            {
                 Log("Miner died");
                 minerProcesses.Remove(process);
                 if (minerProcesses.Count == 0)
@@ -187,21 +190,23 @@ namespace CryptoNoteMiner
             };
 
             process.Start();
-            
-            IntPtr ptr = IntPtr.Zero;
-           // while ((ptr = process.MainWindowHandle) == IntPtr.Zero || process.HasExited) ;
-            while (!process.HasExited)
+
+            // while ((ptr = process.MainWindowHandle) == IntPtr.Zero || process.HasExited) ;
+            //while (!process.HasExited)
+            //{
+
+            //    if (process.MainWindowHandle.ToInt32() == 0)
+            //    {
+            //        process.Refresh();
+            //    }
+
+            //}
+            while (process.MainWindowHandle == (IntPtr)0)
             {
-               
-                if (process.MainWindowHandle.ToInt32() != 0)
-                {
-                    process.Refresh();
-                }
-                SetParent(process.MainWindowHandle, panel1.Handle);
-                MoveWindow(process.MainWindowHandle, 0, 0, panel1.Width, panel1.Height - 20, true);
-
             }
-
+           
+            SetParent(process.MainWindowHandle, panel1.Handle);
+            MoveWindow(process.MainWindowHandle, 0, 0, panel1.Width, panel1.Height - 20, true);
             Log("Miner started on " + cores + " cores");
         }
 
@@ -233,6 +238,7 @@ namespace CryptoNoteMiner
                     process.Kill();
             }
             minerProcesses.Clear();
+            panel1.Refresh();
         }
 
         private void buttonStartMining_Click(object sender, EventArgs e)

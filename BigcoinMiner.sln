@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoNoteMiner", "CryptoNoteMiner\CryptoNoteMiner.csproj", "{8047E257-DE3D-4C2A-8498-6FD586D7053D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigcoinMiner", "BigcoinMiner\BigcoinMiner.csproj", "{8047E257-DE3D-4C2A-8498-6FD586D7053D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +18,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {41723042-D005-4DCA-B836-A4066A88AC55}
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,4 @@
-﻿namespace CryptoNoteMiner
+﻿namespace BigcoinMiner
 {
     partial class Main
     {

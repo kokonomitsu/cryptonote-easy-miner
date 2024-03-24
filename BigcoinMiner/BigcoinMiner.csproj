@@ -7,8 +7,8 @@
     <ProjectGuid>{8047E257-DE3D-4C2A-8498-6FD586D7053D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CryptoNoteMiner</RootNamespace>
-    <AssemblyName>CryptoNoteMiner</AssemblyName>
+    <RootNamespace>BigcoinMiner</RootNamespace>
+    <AssemblyName>BigcoinMiner</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
